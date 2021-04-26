@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css"></link>
+    </head>
+
+    <body>
+<div id="feedback"></div>
+<div id="book">
+    <h2 style="margin-top: 80px;">BookMark Your Favorite Site</h2>
+    <form class="container">
+
+        <label>Enter Title</label><br>
+        <input type="text" placeholder="Title.." id="title"><br>
+        <label>Enter Url</label><br>
+        <input type="text" placeholder="URL.." id="url"><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+    <div>
+        <ul id="myUl">
+            
+        </ul>
+    </div>
+
+    <div id="output">
+        <br>
+    </div>
+
+
+    <script>
+        
+        
+
+        var form = document.getElementById('book');
+
+        form.addEventListener('submit',AddItem);
+
+        function AddItem(e)
+        {
+            e.preventDefault();
+            var title = document.getElementById('title').value;
+            var url = document.getElementById('url').value;
+            var li = document.createElement('li');
+            var t = document.createTextNode(title);
+            title.className = "title";
+            
+            li.appendChild(t);
+            li.className="li1";
+
+            var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+            var regex = new RegExp(expression);
+
+           
+            if(title === '' || url === '')
+            {
+                var feedback = document.getElementById('feedback').innerHTML = 
+                "<h2 style='background-color:red; color:white; text-align:center'>Both fields are empty</h2>";
+                document.getElementById('feedback').style.width =700;
+                
+
+            }
+            else if(!isNaN(title))
+            {
+                var feedback = document.getElementById('feedback').innerHTML = 
+                "<h2 style='background-color:red; color:white;text-align:center'>Title is a Number</h2>";   
+                document.getElementById('feedback').style.width =700;
+            }
+            else if(!url.match(regex))
+            {
+                var feedback = document.getElementById('feedback').innerHTML = 
+                "<h2 style='background-color:red; color:white;text-align:center'>Invalid Url</h2>";   
+                document.getElementById('feedback').style.width =700;
+            }
+            
+           
+            else
+            {
+                document.getElementById('myUl').appendChild(li);
+            }
+            document.getElementById('title').value = '';
+            document.getElementById('url').value = '';
+            
+
+           
+
+            var span1 = document.createElement('button');
+            var txt1 = document.createTextNode(' visit');
+            span1.className = 'visit';
+            span1.appendChild(txt1);
+            li.appendChild(span1);
+
+            var visit = document.getElementsByClassName('visit');
+            for(let i=0;i<visit.length;i++)
+            {
+                visit[i].onclick = function()
+                {
+                    location.href = url;
+                }
+            }
+
+
+            var span = document.createElement('button');
+            var txt = document.createTextNode('Delete');
+            span.className = 'close';
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            var close = document.getElementsByClassName('close');
+            for(let i =0;i<close.length;i++)
+            {
+                close[i].onclick = function()
+                {
+                    var div = this.parentElement;
+                    div.style.display = 'none';
+                }
+            }
+
+        }
+    </script>
+    </body>
+
+
+</html>
